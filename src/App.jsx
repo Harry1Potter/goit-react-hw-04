@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 import SearchBar from './components/SearchBar/SearchBar';
 import ImageGallery from './components/ImageGallery/ImageGallery';
@@ -100,10 +100,14 @@ const App = () => {
     <div>
       <SearchBar onSubmit={handleSearch} />
       
-      {hasSearched && !error && !isEmpty && <ImageGallery images={images} onImageClick={openModal} />}
       {loading && <Loader />}
+      
+      {hasSearched && !loading && !error && !isEmpty && <ImageGallery images={images} onImageClick={openModal} />}
+      
       {error && <ErrorMessage message={error} />}
-      {isEmpty && !loading && !error && <ErrorMessage message="No images found. Try a different search." />}
+      
+      {hasSearched && !loading && !error && isEmpty && <ErrorMessage message="No images found. Try a different search." />}
+      
       {hasSearched && !loading && !error && hasMoreImages && <LoadMoreBtn handleLoadMoreClick={loadMoreImages} />}
       
       <ImageModal
